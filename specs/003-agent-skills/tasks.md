@@ -14,20 +14,21 @@ Issue: #3
 
 ## Workflow skills
 
-- [ ] Добавить `dev-core`.
-- [ ] Добавить `dev-build`.
-- [ ] Добавить `dev-debug`.
-- [ ] Добавить `dev-review`.
-- [ ] Добавить registry/README для `.agents/skills/`.
+- [x] Добавить `dev-core`.
+- [x] Добавить `dev-build`.
+- [x] Добавить `dev-debug`.
+- [x] Добавить `dev-review`.
+- [x] Добавить registry/README для `.agents/skills/`.
 
 ## Интеграция
 
-- [ ] Сократить `AGENTS.md` до bootstrap/invariants/routing.
-- [ ] Обновить `README.md`.
-- [ ] Обновить `docs/development-process.md`.
-- [ ] Добавить `scripts/package-skills`.
-- [ ] Добавить workflow упаковки skills в artifact.
-- [ ] Расширить `scripts/ci` проверками skills.
+- [x] Сократить `AGENTS.md` до bootstrap/invariants/routing.
+- [x] Обновить `README.md`.
+- [x] Обновить `docs/development-process.md`.
+- [x] Обновить `docs/commands.md`.
+- [x] Добавить `scripts/package-skills`.
+- [x] Добавить workflow упаковки skills в artifact.
+- [x] Расширить `scripts/ci` проверками skills.
 
 ## Проверки
 
