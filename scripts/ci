@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+required_files=(
+  "README.md"
+  "AGENTS.md"
+  "docs/constitution.md"
+  "docs/development-process.md"
+  "docs/commands.md"
+  "specs/_template/spec.md"
+  "specs/_template/plan.md"
+  "specs/_template/tasks.md"
+  ".github/pull_request_template.md"
+  ".github/ISSUE_TEMPLATE/feature.yml"
+  ".github/ISSUE_TEMPLATE/bug.yml"
+  ".github/workflows/ci.yml"
+  ".github/workflows/full-ci.yml"
+  "scripts/ci"
+  "scripts/ci-full"
+  "scripts/diagnostics"
+)
+
+missing=0
+for file in "${required_files[@]}"; do
+  if [[ ! -f "$file" ]]; then
+    echo "[ERROR] Отсутствует обязательный файл: $file"
+    missing=1
+  fi
+done
+
+if [[ "$missing" -ne 0 ]]; then
+  exit 1
+fi
+
+echo "[OK] Обязательная структура репозитория присутствует"
+
+bash -n scripts/ci scripts/ci-full scripts/diagnostics
+
+echo "[OK] Базовые shell scripts синтаксически корректны"
+
+if [[ -f scripts/project-ci ]]; then
+  echo "[INFO] Запуск project-specific fast CI"
+  bash scripts/project-ci
+else
+  echo "[INFO] scripts/project-ci не найден — выполнены только проверки шаблона"
+fi
+
+echo "[OK] Fast CI завершён"
