@@ -6,7 +6,7 @@
 
 | Skill | Версия | Назначение |
 |---|---:|---|
-| `dev-core` | 1.0.0 | Clarification, scope, spec, plan, tasks и выбор следующего режима |
+| `dev-core` | 1.0.1 | Clarification, scope, spec, plan, tasks и выбор следующего режима |
 | `dev-build` | 1.0.0 | Реализация согласованной задачи, тесты, CI и PR |
 | `dev-debug` | 1.0.0 | Reproduction, evidence, root cause, минимальный fix и regression test |
 | `dev-review` | 1.0.0 | Независимое review против spec/plan/constitution; read-only по умолчанию |
