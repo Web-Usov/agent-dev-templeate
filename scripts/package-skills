@@ -15,6 +15,19 @@ if ! command -v zip >/dev/null 2>&1; then
   exit 1
 fi
 
+checksum_sha256() {
+  local file="$1"
+
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$file" | awk '{print $1}'
+  elif command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$file" | awk '{print $1}'
+  else
+    echo "[ERROR] Для manifest требуется sha256sum или shasum" >&2
+    return 1
+  fi
+}
+
 rm -rf "$out_abs"
 mkdir -p "$out_abs"
 
@@ -36,7 +49,7 @@ for skill_dir in "$root_dir"/.agents/skills/*; do
       -x '__MACOSX/*'
   )
 
-  checksum="$(sha256sum "$archive" | awk '{print $1}')"
+  checksum="$(checksum_sha256 "$archive")"
   printf '%s\t%s\t%s\n' "$skill_name" "$(basename "$archive")" "$checksum" >> "$manifest"
   echo "[OK] Упакован skill: $skill_name → $archive"
   found=1
