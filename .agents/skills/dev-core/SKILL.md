@@ -1,9 +1,9 @@
 ---
 name: dev-core
-description: Clarify a software change, define scope and acceptance criteria, and produce or update spec, plan and tasks before implementation. Use for new features, unclear requests, requirement changes, architectural choices, or when implementation is not yet ready.
+description: Clarify a software change, define scope and acceptance criteria, and produce or update spec, plan and tasks before implementation. Use for new features, unclear requests, requirement changes, architectural choices, or when implementation is not yet ready. For broad greenfield requests, ask the minimal blocking product questions before finalizing the plan.
 ---
 
-<!-- version: 1.0.0 -->
+<!-- version: 1.0.1 -->
 
 # dev-core
 
@@ -33,17 +33,50 @@ description: Clarify a software change, define scope and acceptance criteria, an
 
 Задавай вопрос пользователю только если неизвестность существенно меняет хотя бы одно из:
 
-- пользовательское поведение;
+- пользователя/актора и модель доступа;
+- пользовательское поведение или основной workflow;
 - публичный API/контракт;
 - модель данных или миграцию;
 - безопасность/права доступа;
 - архитектуру или необратимое решение;
 - acceptance criteria;
-- scope и стоимость задачи.
+- границы MVP, scope или стоимость задачи.
 
-Для локального, обратимого или стандартного решения сделай разумное assumption и явно запиши его в spec/plan.
+Для локального, обратимого или стандартного технического решения сделай разумное assumption и явно запиши его в spec/plan.
 
 Не задавай длинную анкету. Группируй только блокирующие вопросы и продолжай работу после ответа.
+
+### Greenfield clarification gate
+
+Если пользователь описал новый продукт или крупную функцию очень общо и существенные продуктовые границы ещё не определены, **не переходи сразу к полноценному spec/plan/tasks**.
+
+Перед планированием:
+
+1. Определи неизвестности, которые меняют продукт, а не только реализацию.
+2. Выбери максимум **1–3 самых важных блокирующих вопроса**.
+3. Сначала задай их пользователю и дождись ответа.
+4. Только после этого фиксируй окончательный scope, spec, plan, tasks и статус готовности.
+
+Для greenfield-задач в первую очередь проверь, определены ли:
+
+- кто пользуется системой: один пользователь, несколько пользователей, организация/команда;
+- нужна ли идентификация, авторизация, роли или разграничение данных;
+- какой основной пользовательский сценарий должен быть закончен в первой версии;
+- где проходят границы MVP: что обязательно входит и что сознательно откладывается;
+- есть ли продуктовые ограничения, которые трудно или дорого изменить после реализации.
+
+**Не считай безопасным assumption** решения вроде `single-user без auth`, `multi-user`, ролей, общего доступа к данным, destructive behavior или существенного расширения MVP, если пользователь этого не определил.
+
+Если пользователь явно говорит «выбери сам», «сделай прототип» или делегирует продуктовые решения, можно принять разумные defaults, но их нужно явно перечислить как assumptions.
+
+Технические и легко обратимые решения — например выбор Vite/Next.js, Prisma/TypeORM, конкретной test library или структуры внутренних модулей — обычно не требуют отдельного вопроса, если пользователь не задал предпочтение и решение не создаёт существенный lock-in.
+
+Если после анализа есть блокирующие продуктовые вопросы, до ответа пользователя:
+
+- не объявляй `READY FOR IMPLEMENTATION`;
+- не представляй assumptions как согласованные требования;
+- не создавай полноценный planning PR/spec/plan/tasks, если пользователь явно не попросил зафиксировать черновик;
+- используй статус `NEEDS DECISION` или `BLOCKED`.
 
 ## Workflow
 
@@ -55,6 +88,8 @@ description: Clarify a software change, define scope and acceptance criteria, an
 - для кого;
 - какой результат нужен;
 - что сейчас мешает.
+
+Если это broad greenfield request, сначала пройди `Greenfield clarification gate`.
 
 ### 2. Установи границы
 
@@ -73,6 +108,8 @@ description: Clarify a software change, define scope and acceptance criteria, an
 Используй `specs/_template/spec.md` и существующие правила проекта.
 
 Spec описывает **что и зачем**, а не детали реализации.
+
+Не финализируй spec как готовый к реализации, пока остаются блокирующие продуктовые вопросы.
 
 ### 4. Создай или обнови plan
 
@@ -98,7 +135,7 @@ Plan должен покрывать каждое существенное тр�
 
 - каждый acceptance criterion покрыт plan/tasks;
 - нет скрытого scope;
-- assumptions записаны;
+- assumptions записаны и не подменяют нерешённые продуктовые вопросы;
 - способ проверки результата определён;
 - ADR создан, если решение соответствует ADR-триггерам проекта.
 
